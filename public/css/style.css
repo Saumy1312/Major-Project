@@ -62,27 +62,33 @@ body {
     perspective: 1000px;
 }
 .card {
+    overflow: hidden; /* NEW: Prevent image spill */
+    border-radius: 1rem;
     border: none !important;
     margin-bottom: 2rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    transform-style: preserve-3d;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    will-change: transform;
 }
+
 .card:hover {
-    transform: translateY(-10px) translateZ(20px) rotateX(2deg) rotateY(1deg);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-    z-index: 10;
+    transform: translateY(-6px) scale(1.02); /* Slight lift + scale */
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
+    transform: translateY(-6px);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1), 0 0 12px rgba(254, 66, 77, 0.2); /* Red glow */
 }
 
 .card-img-top {
-    border-radius: 1rem !important;
     width: 100% !important;
+    height: 20rem;
     object-fit: cover !important;
-    height: 20rem; 
+    transition: transform 0.4s ease;
+    border-radius: 0 !important; /* Let the card round the corners */
 }
 
-.card-body {
+
+/* .card-body {
     padding: 0.5rem 0.5rem !important;
-}
+} */
 
 .card-text {
     font-weight: 400 !important;
@@ -112,7 +118,7 @@ body {
 
 /* ---- Create New Listing Form Enhancements ---- */
 
-form {
+form.listing-form {
     background: #ffffff;
     padding: 2rem;
     border-radius: 1rem;
@@ -153,3 +159,71 @@ form .form-label {
     background-color: #ff5a5f !important;
 }
 
+/* show page */
+.show-img {
+    height: 30vh;
+}
+.btns {
+    display: flex;
+}
+.edit-btn {
+    background-color: #fe424d !important;
+    border: none !important;
+    color: white;
+    padding: 0.6rem 1.5rem;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease;
+}
+.edit-btn:hover {
+    background-color: #ff5a5f !important;
+}
+.show-card{
+    padding-left: 0;
+    padding-right: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);/* Slight spacing and visual polish chatgpt */
+    border-radius: 0.5rem;/* Slight spacing and visual polish chatgpt */
+    background: white;/* Slight spacing and visual polish chatgpt */
+    animation: fadeInUp 0.6s ease-out;/* Apply it to the show-card chatgpt*/
+}
+
+/* Make image look clean */
+.show-img {
+  border-radius: 0.5rem;
+  object-fit: cover;
+  width: 100%;
+}
+
+/* Align Edit and Delete buttons side-by-side with spacing */
+.btns {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+/* Animation keyframes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* footer */
+.f-info-socials i {
+    color: #222;
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+.f-info-socials a {
+    color: inherit;
+    text-decoration: none;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.f-info-socials a:hover {
+    color: #fe424d;             
+    transform: scale(1.2);      
+}
