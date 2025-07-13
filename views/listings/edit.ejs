@@ -3,7 +3,7 @@
     <div class="col-8 offset-2">
 <body>
     <h3>Edit your listing</h3>
-    <form class="listing-form" method="POST" action= "/listings/<%=listing._id%>?_method=PUT">
+    <form class="listing-form needs-validation" method="POST" action= "/listings/<%=listing._id%>?_method=PUT" novalidate>
         <div class="mb-3">
   <label for="title" class="form-label">Title</label>
   <input
@@ -12,7 +12,9 @@
     type="text"
     placeholder="Enter title"
     class="form-control"
+    required
   >
+  <div class="invalid-feedback">Enter Valid Title</div>
 </div>
 
 <div class="mb-3">
@@ -21,7 +23,9 @@
     name="Listing[description]"
     rows="5"
     class="form-control"
+    required
   ><%= listing.description %></textarea>
+  <div class="invalid-feedback">Enter Valid Description</div>
 </div>
 
 <div class="mb-3">
@@ -32,6 +36,7 @@
     value="<%= listing.image.url %>"
     class="form-control"
   >
+  
 </div>
 
 <div class="row">
@@ -42,7 +47,9 @@
     type="number"
     value="<%= listing.price %>"
     class="form-control"
+    required
   >
+  <div class="invalid-feedback">Enter Valid Price</div>
 </div>
 <div class="mb-3 col-md-8">
   <label for="country" class="form-label">Country</label>
@@ -51,7 +58,9 @@
     type="text"
     value="<%= listing.country %>"
     class="form-control"
+    required
   >
+  <div class="invalid-feedback">Enter Valid Country</div>
 </div>
 </div>
 
@@ -62,7 +71,9 @@
     type="text"
     value="<%= listing.location %>"
     class="form-control"
+    required
   >
+  <div class="invalid-feedback">Enter Valid Location</div>
 </div>
     <button class="btn btn-dark add-btn mt-3">
             Edit
