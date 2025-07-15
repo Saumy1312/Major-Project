@@ -9,9 +9,11 @@ const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
 const { listingSchema } = require("./schema.js");
 const Review = require("./models/review.js");
+const { reviewSchema } = require("./schema.js");
 
 
 app.use(express.urlencoded({extended: true}));
+app.use(express.json());
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -32,6 +34,7 @@ app.get("/", (req,res) => {
     res.send("root working")
 });
 
+// Middleware to validate listing data
 const validateListing = (req, res, next) => {
     // Convert price string to number if it exists
     if (req.body.listing && req.body.listing.price) {
@@ -50,6 +53,20 @@ const validateListing = (req, res, next) => {
     }
 };
 
+// Middleware to validate review data
+const validateReview = (req, res, next) => {
+    if (!req.body || !req.body.review) {
+        throw new ExpressError(400, "Review data is required");
+    }
+    
+    let { error } = reviewSchema.validate(req.body);
+    if (error) {
+        let errMsg = error.details.map((el) => el.message).join(", ");
+        throw new ExpressError(400, errMsg);
+    } else {
+        next();
+    }
+};
 
 
 
@@ -115,7 +132,7 @@ app.delete("/listings/:id", wrapAsync (async (req,res) =>{
 
 
 //post route for reviews
-app.post("/listings/:id/reviews", async (req, res) => {
+app.post("/listings/:id/reviews", validateReview, wrapAsync (async (req, res) => {
     let listing = await Listing.findById(req.params.id);
     let newReview = new Review(req.body.review);
 
@@ -124,7 +141,7 @@ app.post("/listings/:id/reviews", async (req, res) => {
     await listing.save();  
     console.log("Review added:", newReview);
     res.send("Review added successfully");
-});
+}));
 
 
 app.all(/.*/, (req, res, next) => {
@@ -133,7 +150,7 @@ app.all(/.*/, (req, res, next) => {
 
 app.use((err, req, res, next) => {
     let { statusCode = 500, message = "Something went wrong" } = err;
-    res.render("error.ejs", { statusCode, message });
+    res.status(statusCode).render("error.ejs", { statusCode, message });
 });
  
 
