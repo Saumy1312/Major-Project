@@ -1,9 +1,18 @@
 body {
     font-family: "Plus Jakarta Sans", sans-serif !important;
+    height: 100%;
+    margin: 0;
+}
+/* for footer */
+.main-wrapper {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
+.main-content {
+  flex: 1;
+}
+
 .container {
     flex: 1;
 }
