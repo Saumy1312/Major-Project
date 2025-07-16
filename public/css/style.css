@@ -70,7 +70,7 @@ body {
 .row {
     perspective: 1000px;
 }
-.card {
+.listing-card {
     overflow: hidden; /* NEW: Prevent image spill */
     border-radius: 1rem;
     border: none !important;
