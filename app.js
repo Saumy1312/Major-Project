@@ -7,7 +7,9 @@ const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
 const session = require("express-session");
 const flash =  require("connect-flash");
-
+const passport = require("passport");   
+const localStrategy = require("passport-local");
+const User = require("./models/user.js"); 
 
 
 const listings = require("./routes/listing.js");
@@ -21,6 +23,7 @@ app.set("views", path.join(__dirname, "views"));
 app.use(methodoverride("_method"));
 app.engine("ejs", ejsMate); 
 app.use(express.static(path.join(__dirname,"/public")));
+
 
 const sessionOptions = {
     secret: "mysupersecretcode",
@@ -36,6 +39,14 @@ const sessionOptions = {
 app.use(session(sessionOptions));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new localStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+ 
 async function main() {
     await mongoose.connect('mongodb://127.0.0.1:27017/wanderlust');
 }
@@ -49,10 +60,17 @@ app.get("/", (req,res) => {
 });
 app.use((req, res, next) => {
     res.locals.success = req.flash("success");
-    console.log(res.locals.success);
     res.locals.error = req.flash("error");
-    console.log(res.locals.error);
     next();
+});
+
+app.get("/demouser", async (req,res) => {
+    let fakeUser = new User({
+        email: "student@gmail.com",
+        username: "delta-student"
+});
+    let registeredUser = await User.register(fakeUser, "password789");
+    res.send(registeredUser);
 });
 app.use("/listings", listings);
 app.use("/listings/:id/reviews", reviews);
