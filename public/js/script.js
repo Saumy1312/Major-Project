@@ -18,3 +18,31 @@
       }, false)
     })
 })()
+
+const form = document.querySelector('.needs-validation');
+    const textarea = document.getElementById('comment');
+    
+    form.addEventListener('submit', function(event) {
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            if (textarea.value.trim() === '') {
+                textarea.classList.add('is-invalid');
+            }
+        } else {
+            // Add loading state to button
+            const submitBtn = form.querySelector('.btn-submit');
+            submitBtn.innerHTML = 'Submitting...';
+            submitBtn.disabled = true;
+        }
+        
+        form.classList.add('was-validated');
+    });
+    
+    // Remove invalid class when user starts typing
+    textarea.addEventListener('input', function() {
+        if (this.value.trim() !== '') {
+            this.classList.remove('is-invalid');
+        }
+    });
