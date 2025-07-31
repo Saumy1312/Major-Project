@@ -1,5 +1,7 @@
 {
-    "rewrites": [
-        {"source": "/(.*)", "destination": "/"}
-    ]
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/api/app.js" }
+  ],
+  "buildCommand": "npm install",
+  "outputDirectory": "."
 }
