@@ -1,9 +1,32 @@
 <% layout("/layouts/boilerplate"); %>
-    <h2>listings</h2>
-    <!-- <form action="/listings/new" method="GET">
-        <button>Create New Listing</button>
-    </form> -->
-<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+    <div id="filter-wrapper">
+    
+
+    <div id="filter">
+        <div class="filters"><div><i class="fa-solid fa-fire"></i></div><p>Trending</p></div>
+        <div class="filters"><div><i class="fa-solid fa-users"></i></div><p>Dorms</p></div>
+        <div class="filters"><div><i class="fa-solid fa-door-closed"></i></div><p>Private Rooms</p></div>
+        <div class="filters"><div><i class="fa-solid fa-money-bill-wave"></i></div><p>Budget</p></div>
+        <div class="filters"><div><i class="fa-solid fa-mug-hot"></i></div><p>Free Breakfast</p></div>
+        <div class="filters"><div><i class="fa-solid fa-location-dot"></i></div><p>City Center</p></div>
+        <div class="filters"><div><i class="fa-solid fa-martini-glass-citrus"></i></div><p>Party</p></div>
+        <div class="filters"><div><i class="fa-solid fa-person-hiking"></i></div><p>Backpacker</p></div>
+        <div class="filters"><div><i class="fa-solid fa-venus"></i></div><p>Female Only</p></div>
+        <div class="filters"><div><i class="fa-solid fa-building"></i></div><p>Rooftop</p></div>
+        <div class="filters"><div><i class="fa-solid fa-shield-heart"></i></div><p>Safe & Clean</p></div>
+    </div>
+
+    <div class = "tax-toggle mb-3">
+        <div class="form-check-reverse form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+            <label class="form-check-label" for="switchCheckDefault">Display price after taxes</label>
+    </div>
+
+
+    </div>
+</div>
+
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
 <% for(let listing of allListings) { %>
     <a href="/listings/<%=listing._id%>" class="listing-link">
         <div class="card col listing-card">
@@ -20,4 +43,41 @@
 
 <%}%>
 </div>
+
+<script>
+  let taxSwitch = document.getElementById("switchCheckDefault");
+  let texts = document.querySelectorAll(".card-text");
+
+  let originalPrices = [];
+  texts.forEach(text => {
+    let match = text.innerText.match(/₹\s?([\d,]+)/);
+    let price = match ? parseInt(match[1].replace(/,/g, '')) : 0;
+    originalPrices.push(price);
+  });
+
+  taxSwitch.addEventListener("click", () => {
+    texts.forEach((text, index) => {
+      let basePrice = originalPrices[index];
+      let title = text.innerText.split("\n")[0];
+
+      let newPrice = taxSwitch.checked
+        ? Math.round(basePrice * 1.18)
+        : basePrice;
+      let label = taxSwitch.checked ? " (incl. GST)" : "";
+
+      text.innerHTML = `<b>${title}</b><br>₹ ${newPrice.toLocaleString("en-IN")} / night${label}`;
+
+      // 👇 Add animation class
+      text.classList.add("price-animate");
+
+      // 👇 Remove animation after it's done
+      setTimeout(() => {
+        text.classList.remove("price-animate");
+      }, 300);
+    });
+  });
+</script>
+
+
+
 
