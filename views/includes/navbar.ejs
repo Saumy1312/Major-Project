@@ -32,10 +32,11 @@
       </div>
 
       <!-- Right buttons -->
+       
       <div class="navbar-nav ms-auto flex-column flex-md-row">
         <a class="nav-link signup-btn" href="/listings/new">List your luxury stay</a>  
 
-        <% if (!currentUser) { %>         
+        <% if (!currentUser) { %>
           <a class="nav-link signup-btn" href="/signup">Sign Up</a>         
           <a class="nav-link signup-btn" href="/login">Log In</a>         
         <% } else { %>         
