@@ -14,7 +14,7 @@ const flash =  require("connect-flash");
 const passport = require("passport");   
 const localStrategy = require("passport-local");
 const User = require("./models/user.js"); 
-const Listing = require("./models/listing.js"); // Add this if not already
+const Listing = require("./models/listing.js"); 
 
 
 const listingsRouter = require("./routes/listing.js");
@@ -66,7 +66,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 
- 
+
 main().then(() => {
     console.log("connected to database")
 })
@@ -108,8 +108,6 @@ app.use((err, req, res, next) => {
 });
 
 
-app.listen(8080, () => {
-    console.log("server is working at port 8080");
-});
+module.exports = app;
 
 

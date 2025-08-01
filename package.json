@@ -2,6 +2,7 @@
   "name": "major-project",
   "version": "1.0.0",
   "main": "index.js",
+  
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,6 +19,7 @@
   "homepage": "https://github.com/Saumy1312/Major-Project#readme",
   "description": "",
   "dependencies": {
+   
     "@mapbox/mapbox-sdk": "^0.16.1",
     "cloudinary": "^1.30.0",
     "connect-flash": "^0.1.1",
